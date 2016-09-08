@@ -34,12 +34,12 @@ var Cone = function(options) {
     var iceCreamHeight = height / 1.2;
     var sprinkleSize = options.sprinkleSize || 10;
     var sprinklesBoundingRect = {
-        left: iceCream.state.x - width / 2 + sprinkleSize + 2,
-        right: iceCream.state.x + width / 2 - sprinkleSize - 2,
+        left: iceCream.state.x - width / 2 + sprinkleSize + 10,
+        right: iceCream.state.x + width / 2 - sprinkleSize - 10,
         top: iceCream.state.y - iceCreamHeight / 2 + sprinkleSize,
         bottom: 0 - sprinkleSize,
         center: {
-            x: iceCream.state.x + width / 2 - sprinkleSize - 2 - iceCream.state.x - width / 2 + sprinkleSize + 2,
+            x: iceCream.state.x + width / 2 - sprinkleSize - 10 - iceCream.state.x - width / 2 + sprinkleSize + 10,
             y: -sprinkleSize - iceCream.state.y - iceCreamHeight / 2 + sprinkleSize
         }
     };
@@ -56,13 +56,14 @@ var Cone = function(options) {
 
         var sprinkle = new Rune.Rectangle(sx, sy, sprinkleSize, sprinkleSize / 4)
             .fill(primaryColor)
-            .stroke(primaryColor);
+            .stroke(secondaryColor)
+            .round(2, 2);
 
         var intersected = false;
 
         // Rectangle Packing
-        // Super inefficient!
-        // but it's fine since we're only drawing once
+        // Super inefficient and super simplified.
+        // but it's fine for this since we're only drawing once
         // For all other sprinkles, check to see
         if (sprinkles.length > 0) {
             console.log('sprinkles is', sprinkles.length, 'long');
