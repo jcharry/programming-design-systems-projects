@@ -1,6 +1,4 @@
-###First Assignment###
-Draw and ice cream cone!
+#Second Assignment - The Martian#
+Size, shape, and rotation
 
-[image]: https://github.com/jcharry/programming-design-systems-projects/blob/master/first-assignment/iceCream.png
-
-![][image]
+[image]: https://github.com/jcharry/programming-design-systems-projects/blob/master/second-assignment/the-martian.png
