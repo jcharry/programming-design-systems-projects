@@ -1,122 +1,138 @@
-/* global Rune */
-(function() {
-
+/* global Rune colorSchemes */
+/* eslint
+    "no-redeclare": "off"
+ */
 var cw = 800;
-var ch = 800;
+var ch = 1000;
+
 var r = new Rune({
-  container: "#canvas",
-  width: cw,
-  height: ch,
-  debug: true
+    container: "#canvas",
+    width: cw,
+    height: ch
+    //debug: true
 });
 
-// Sharp
-var drawSpikes = function(fill) {
-    var spikes = r.path(0, 0).fill(fill)
-        .strokeWidth(2)
-        .stroke('#000000');
-    var numPoints = 200;
-    var xStep = cw / numPoints;
-    var yStep = ch / numPoints;
+var distSq = function(x1, y1, x2, y2) {
+    return (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
+};
 
+// http://stackoverflow.com/questions/3745760/java-generating-a-random-numbers-with-a-logarithmic-distribution
+var randLog = function(max) {
+    let zmii = 1.03;
+    let idx = 4 * (max - Math.floor(Math.log((Math.random() * (Math.pow(zmii, max) - 1.0)) + 1.0) / Math.log(zmii)));
+    return Math.random() < 0.5 ? idx : -idx;
+};
 
-    for (var j = 0; j < numPoints * 4; j++) {
-        var shouldSpike = false;
-        var randStep = 0;
+var results = [];
+for (var j = 0; j < 1000; j++) {
+    let idx = randLog(r.height / 2);
+    results.push(idx);
+}
 
-        // corner ranges happen
-        // when j is with x units of a multiple of numPoints
-
-        if (r.random(0, 1) < 0.2) {
-
-            if (!(j < 20 || 
-                (j > numPoints - 20 && j < numPoints + 20) ||
-                (j > (numPoints * 2) - 20 && j < (numPoints * 2) + 20) ||
-                (j > (numPoints * 3) - 20 && j < (numPoints * 3) + 20) ||
-                (j > (numPoints * 4) - 20 && j < (numPoints * 4) + 20))) {
-                    shouldSpike = true;
-                }  else {
-                }
-        }
-
-        // Draw around the border,
-        // break loop into 4 regions
-        if (j < numPoints) {
-            // Top
-            if (shouldSpike) {
-                randStep = r.random(3, 10);
-
-                spikes.lineTo(j * xStep + randStep, r.random(50, 100));
-                j += randStep - 1;
-            } else {
-                spikes.lineTo(xStep * j, r.random(5, 15));
-            }
-        } else if (j < numPoints * 2) {
-            // Right
-            if (shouldSpike) {
-                randStep = r.random(3, 10);
-
-                spikes.lineTo(cw + r.random(-100, -50), (j - numPoints) * yStep + randStep);
-                j += randStep;
-            } else {
-                spikes.lineTo(cw + r.random(-15, -5), yStep * (j - numPoints));
-            }
-        } else if (j < numPoints * 3) {
-            // Bottom
-            if (shouldSpike) {
-                randStep = r.random(3, 10);
-
-                spikes.lineTo(cw + (j - numPoints * 2) * -xStep - randStep, ch + r.random(-100, -50));
-                //spikes.lineTo(cw + r.random(-100, -50), (j - numPoints) * yStep + randStep);
-                j += randStep;
-            } else {
-                spikes.lineTo(cw + (j - numPoints * 2) * -xStep, ch + r.random(-15, -5));
-            }
-        } else {
-            // Left
-            if (shouldSpike) {
-                randStep = r.random(3, 10);
-
-                spikes.lineTo(r.random(50, 100), ch - (j - numPoints * 3) * yStep - randStep);
-                j += randStep;
-            } else {
-                spikes.lineTo(r.random(5, 15), ch - (j - numPoints * 3) * yStep - randStep) 
-            }
-        }
+let dist = {};
+results.forEach(function(res) {
+    let strRes = String(res);
+    if (dist[strRes]) {
+        dist[strRes]++;
+    } else {
+        dist[strRes] = 1;
     }
+});
+
+console.log(dist);
+
+var node = function(x, y, r, options) {
+    var x = x || 0,
+        y = y || 0,
+        r = r || 0;
+
+    var fill = typeof options.fill === undefined ? true : options.fill,
+        stroke = typeof options.stroke === undefined ? true : options.stroke;
+
+    var elt = new Rune.Circle(x, y, r)
+        .stroke(stroke)
+        .fill(fill);
+    var neighbors = [];
+
+    var addToStage = function(stage) {
+        stage.add(elt);
+    };
+
+    var findKNeighbors = function(allNodes, k) {
+        allNodes.forEach(function(n) {
+            if (n === elt) {
+                return;
+            }
+            if (distSq(n.elt.state.x, n.elt.state.y, elt.state.x, elt.state.y) < k * k) {
+                neighbors.push(n);
+            }
+        });
+
+        return neighbors;
+    };
+
+    return {
+        elt,
+        addToStage,
+        findKNeighbors,
+        neighbors
+    };
+};
+
+let base = r.random(0, 360);
+
+let {analogous, monochromatic, triadic, tetradic} = colorSchemes;
+let analogousColors = analogous(base, 10);
+let monoColors = monochromatic(base, 10);
+let triadicColors = triadic(base, 10);
+let tetradicColors = tetradic(base, 10);
+
+let colorArr = monoColors;
+colorArr.forEach(function(col) {
+    console.log(`h: ${col.values.hsv[0]} s: ${col.values.hsv[1]} b: ${col.values.hsv[2]}`);
+});
+r.rect(0, 0, r.width, r.height)
+    .stroke(false)
+    .fill(colorArr[Math.floor(r.random(0, colorArr.length))]);
+let circles = [];
+for (var i = 0; i < 100; i++) {
+    let x = r.width / 2 + randLog(r.width / 2);
+    let y = r.height / 2 + randLog(r.height / 2);
+    let n = node(x, y, r.random(1, 3), {
+        fill: false,
+        stroke: colorArr[Math.floor(r.random(0, colorArr.length))]
+    });
+    n.addToStage(r.stage);
+    circles.push(n);
 }
 
+var curveParams = {
+    xOff: 3,
+    yOff: 1
+};
+circles.forEach(function(c) {
+    c.findKNeighbors(circles, 100);
 
-// Wet
-function drawWater(fill, rotate) {
-    var poly = r.polygon(cw / 2, ch / 2).fill(false).stroke('#ffffff').strokeWidth(2);
-        numPoints = 360,
-        step = Math.PI * 2 / numPoints,
-        radius = 200,
-        rotate = rotate || 0,
-        numWaves = 10,
-        offsetHeight = 20;
+    c.neighbors.forEach(function(neighbor) {
+        // Draw line to neighbor
+        let x1 = c.elt.state.x,
+            y1 = c.elt.state.y,
+            x2 = neighbor.elt.state.x,
+            y2 = neighbor.elt.state.y;
 
-    for (var i = 0; i < numPoints; i++) {
-        var rOffset = Math.sin(i * step * numWaves) * offsetHeight;
-        if ((step * i) < Math.PI) {
-            rOffset = 0;
-        }
-        var x = Math.cos(i * step) * (radius - rOffset)
-            y = Math.sin(i * step) * (radius - rOffset);
-        poly.lineTo(x, y);
-    }
+        //r.line(x1, y1, x2, y2);
+        //r.path(x1, y1).curveTo((x2 - x1) / curveParams.xOff, (y2 - y1) / curveParams.yOff, x2 - x1, y2 - y1)
+        r.path(x1, y1).lineTo(x2 - x1, y2 - y1)
+            .fill(false)
+            //.fill(false)
+            .strokeWidth(r.random(0.1, 1))
+            //.stroke(analogousColors[Math.floor(r.random(0, analogousColors.length))]);
+            .stroke(colorArr[Math.floor(r.random(0, colorArr.length))]);
+    });
+});
 
-    //poly.rotate(rotate, cw / 2, ch / 2);
-
-}
-
-for (var i = 0; i < 3; i++) {
-    var fill = i % 2 === 0 ? '#000000' : '#ffffff';
-    drawSpikes(fill);
-    drawWater(fill, i * 20);
-}
+//var rect = r.rect(0, 0, 100, 100)
+    //.fill('hsv', 0, 0, 30)
+    //.stroke(false);
 
 r.draw();
-
-}());
