@@ -87,7 +87,7 @@ let monoColors = monochromatic(base, 10);
 let triadicColors = triadic(base, 3);
 let tetradicColors = tetradic(base, 4);
 
-let colorArr = tetradicColors;
+let colorArr = analogousColors;
 colorArr.forEach(function(col) {
     console.log(`h: ${col.values.hsv[0]} s: ${col.values.hsv[1]} b: ${col.values.hsv[2]}`);
 });

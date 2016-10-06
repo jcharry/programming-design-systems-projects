@@ -13,7 +13,8 @@ let colorSchemes = function(){
         // spacing of brightness and saturation
         let increment = 100 / numColors;
         for (let i = 0; i < numColors; i++) {
-            colors.push(new Rune.Color('hsv', base, r.random(0, 100), 30 + i * increment));
+            //colors.push(new Rune.Color('hsv', base, r.random(0, 100), 30 + i * increment));
+            colors.push(new Rune.Color('hsv', base, r.random(0, 100), r.random(0, 100)));
         }
         return colors;
     };
