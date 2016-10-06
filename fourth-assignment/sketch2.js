@@ -87,7 +87,7 @@ let monoColors = monochromatic(base, 10);
 let triadicColors = triadic(base, 3);
 let tetradicColors = tetradic(base, 4);
 
-let colorArr = monoColors;
+let colorArr = tetradicColors;
 colorArr.forEach(function(col) {
     console.log(`h: ${col.values.hsv[0]} s: ${col.values.hsv[1]} b: ${col.values.hsv[2]}`);
 });
@@ -96,11 +96,22 @@ let baseColor = new Rune.Color('hsv', colorArr[Math.floor(r.random(0, colorArr.l
 r.rect(0, 0, r.width, r.height)
     .stroke(false)
     .fill(baseColor);
-let circles = [];
-for (var i = 0; i < 200; i++) {
-    let x = r.width / 2 + randLog(r.width / 2);
-    let y = r.height / 2 + randLog(r.height / 2);
-    let n = node(x, y, r.random(3, 10), {
+
+
+let cColor = colorArr[Math.floor(r.random(0, colorArr.length))];
+let centerNode = node(r.width / 2, r.height / 2, r.random(3, 5), {fill: false, stroke: cColor});
+//centerNode.addToStage(r.stage);
+let circles = [centerNode];
+//let circles = [];
+let radius = 100;
+let spiralConstant = 10;
+let radiusConstant = 2;
+for (var i = 0; i < 500; i++) {
+    let x = r.width / 2 + radius * Math.cos(r.radians(i * spiralConstant));
+    let y = r.height / 2 + radius * Math.sin(r.radians(i * spiralConstant));
+
+    radius += radiusConstant;
+    let n = node(x, y, r.random(2, 4), {
         fill: false,
         stroke: colorArr[Math.floor(r.random(0, colorArr.length))]
     });
@@ -108,10 +119,10 @@ for (var i = 0; i < 200; i++) {
     circles.push(n);
 }
 
-var curveParams = {
-    xOff: 3,
-    yOff: 1
-};
+//var curveParams = {
+    //xOff: 3,
+    //yOff: 1
+//};
 circles.forEach(function(c) {
     c.findKNeighbors(circles, 100);
 
@@ -132,6 +143,8 @@ circles.forEach(function(c) {
             .stroke(colorArr[Math.floor(r.random(0, colorArr.length))]);
     });
 });
+
+
 
 //var rect = r.rect(0, 0, 100, 100)
     //.fill('hsv', 0, 0, 30)
