@@ -87,7 +87,7 @@ let monoColors = monochromatic(base, 10);
 let triadicColors = triadic(base, 3);
 let tetradicColors = tetradic(base, 4);
 
-let colorArr = analogousColors;
+let colorArr = monoColors;
 colorArr.forEach(function(col) {
     console.log(`h: ${col.values.hsv[0]} s: ${col.values.hsv[1]} b: ${col.values.hsv[2]}`);
 });
@@ -95,7 +95,7 @@ colorArr.forEach(function(col) {
 let baseColor = new Rune.Color('hsv', colorArr[Math.floor(r.random(0, colorArr.length))].values.hsv[0], 50, 30);
 r.rect(0, 0, r.width, r.height)
     .stroke(false)
-    .fill(baseColor);
+    .fill('hsv', 100, 0, 20);
 
 
 let cColor = colorArr[Math.floor(r.random(0, colorArr.length))];
