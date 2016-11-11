@@ -3,4 +3,5 @@
 .swo
 .sw?
 *.tif
+node_modules
 

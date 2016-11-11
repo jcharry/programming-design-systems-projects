@@ -1,0 +1,19 @@
+{
+  "name": "eighth-assignment",
+  "version": "1.0.0",
+  "description": "Recreating this Sol Lewitt Work [piece]: https://s3-us-west-2.amazonaws.com/sfmomamedia/media/t/collection_images/_BoJVgMv1-8Y.jpg",
+  "main": "delaunay.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "delaunay-triangulate": "^1.1.6",
+    "delaunay-triangulation": "^2.0.0",
+    "express": "^4.14.0",
+    "simple-quadtree": "^0.1.3"
+  }
+}
