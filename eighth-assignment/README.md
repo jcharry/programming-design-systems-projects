@@ -27,6 +27,7 @@ And another little library to the rescue:
 
 #Output#
 [output]: https://github.com/jcharry/programming-design-systems-projects/blob/master/eighth-assignment/imgs/walldrawing_small.png
+![][output]
 
 
 

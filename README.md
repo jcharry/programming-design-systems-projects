@@ -2,6 +2,10 @@
 
 Class syllabus here: [Programming Design Systems](http://printingcode.runemadsen.com/)
 
+##Week 8 - Randomization##
+[week8]: https://github.com/jcharry/programming-design-systems-projects/blob/master/eighth-assignment/imgs/walldrawing_small.png
+![][week8]
+
 ##Week 7 - Generative Logo##
 [week7]: https://github.com/jcharry/programming-design-systems-projects/blob/master/seventh-assignment/generative-olympic-logo.png
 ![][week7]
