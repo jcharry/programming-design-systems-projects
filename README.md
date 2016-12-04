@@ -2,6 +2,10 @@
 
 Class syllabus here: [Programming Design Systems](http://printingcode.runemadsen.com/)
 
+##Final - NYC Community Garden Plaques##
+[final]: https://github.com/jcharry/programming-design-systems-projects/blob/master/final-project/imgs/gardenlifehealth.png
+![][final]
+
 ##Week 8 - Randomization##
 [week8]: https://github.com/jcharry/programming-design-systems-projects/blob/master/eighth-assignment/imgs/walldrawing_small.png
 ![][week8]

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Empty project</title>
+        <script type="text/javascript" src="../rune.js"></script>
+        <script src="https://d3js.org/d3.v4.js"></script>
+        <script src='../underscore.js'></script>
+        <link rel='stylesheet' href='./foundation-6.2.4-complete/css/foundation.css' />
+        <style type="text/css">
+            body {
+                background-color: #EAEAEA;
+            }
+            #canvas svg {
+                background-color: white;
+                box-shadow: 0 3px 2px 0 rgba(0, 0, 0, 0.06),inset -1px -1px 1px 0 rgba(0, 0, 0, 0.02);
+                border: 1px solid #E2E2E2;
+                border-bottom-color: #CECECE;
+            }
+
+            form {
+                padding: 1rem;
+                width: 500px;
+            }
+        </style>
+    </head>
+    <body>
+        <ul class="dropdown menu" data-dropdown-menu>
+            <li >
+                <a>Generate New Plaque</a>
+                <ul class='menu' >
+                    <li>
+                        <form>
+                            <label for='name'>Name</label>
+                            <input type='text' name='name' placeholder='Garden Name' />
+                            <br />
+
+                            <label for='loc'>Borough</label>
+                            <select name='loc'>
+                                <option value='Bronx' selected>Bronx</option>
+                                <option value='Brooklyn'>Brooklyn</option>
+                                <option value='Queens'>Queens</option>
+                                <option value='Manhattan'>Manhattan</option>
+                                <option value='Staten Island'>Staten Island</option>
+                            </select>
+                            <br />
+
+                            <label for='year'>Year Founded</label>
+                            <input type='number' placeholder='Year Founded' name='year'/>
+                            <br />
+
+                            <label for='hasfood'>Food Production?</label>
+                            <select name='hasfood'>
+                                <option value="yes" selected>Yes</option>
+                                <option value="no">No</option>
+                            </select>
+                            <br />
+
+                            <!-- <label for='size'>Garden Size (sq ft)</label> -->
+                            <!-- <input type='number' name='size' placeholder='Garden Size' /> -->
+                            <!-- <br /> -->
+
+                            <label for='activities'>Activities, and Other (select all that apply)</label>
+                            <select name='activities' multiple>
+                                <option value="compost">Compost Collection</option>
+                                <option value="education">Education (Family) Events</option>
+                                <option value="chickens">Keep Chickens</option>
+                                <option value='flowers'>Grows Flowers</option>
+                                <option value="public">Public Access</option>
+                                <option value='rainwater'>Rainwater Harvesting</option>
+                                <option value='art'>Art Space</option>
+                            </select>
+                            <br />
+
+                            <input class='button' type='submit' id='submit' />
+                        </form>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div id='canvas'></div>
+        <script src='./foundation-6.2.4-complete/js/vendor/jquery.js'></script>
+        <script src="./foundation-6.2.4-complete/js/vendor/what-input.js"></script>
+        <script src='./foundation-6.2.4-complete/js/vendor/foundation.js'></script>
+        <script type="text/javascript" src="sketch.js"></script>
+    </body>
+</html>
